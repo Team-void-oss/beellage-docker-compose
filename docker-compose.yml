@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  postgres:
+  postgres-beellage:
     image: postgres:13
-    container_name: postgres
+    container_name: postgres-beellage
     environment:
       POSTGRES_DB: issue_tracker
       POSTGRES_USER: judy
@@ -19,13 +19,13 @@ services:
       dockerfile: Dockerfile
     container_name: beellage_app
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/issue_tracker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-beellage:5432/issue_tracker
       SPRING_DATASOURCE_USERNAME: judy
       SPRING_DATASOURCE_PASSWORD: judy
     ports:
       - "8080:8080"
     depends_on:
-      - postgres
+      - postgres-beellage
 
   frontend:
     build:
