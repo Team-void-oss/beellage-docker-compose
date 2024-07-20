@@ -1,0 +1,6 @@
+[submodule "beellage-backend-server"]
+	path = beellage-backend-server
+	url = https://github.com/Team-void-oss/beellage-backend-server.git
+[submodule "beellage-frontend-server"]
+	path = beellage-frontend-server
+	url = https://github.com/Team-void-oss/beellage-frontend-server.git
