@@ -1,17 +1,17 @@
 version: '3.8'
 
 services:
-  postgres:
+  beellage_db:
     image: postgres:13
-    container_name: postgres
+    container_name: beellage_db
     environment:
       POSTGRES_DB: issue_tracker
       POSTGRES_USER: judy
       POSTGRES_PASSWORD: judy
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
 
   backend:
     build:
@@ -19,13 +19,15 @@ services:
       dockerfile: Dockerfile
     container_name: beellage_app
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/issue_tracker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://beellage_db:5432/issue_tracker
       SPRING_DATASOURCE_USERNAME: judy
       SPRING_DATASOURCE_PASSWORD: judy
     ports:
       - "8080:8080"
     depends_on:
-      - postgres
+      - beellage_db
+    networks:
+      - app-network
 
   frontend:
     build:
@@ -36,11 +38,9 @@ services:
       - "3000:3000"
     depends_on:
       - backend
+    networks:
+      - app-network
 
-volumes:
-  postgres_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./data/postgres
+networks:
+  app-network:
+    driver: bridge
